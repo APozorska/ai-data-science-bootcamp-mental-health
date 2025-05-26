@@ -1,0 +1,173 @@
+data:
+  train_path: 'data/train_data.csv'
+  predict_path: 'data/predict_data.csv'
+  target_col: "depression"
+  columns:
+    - 'id'
+    - 'name'
+    - 'gender'
+    - 'age'
+    - 'city'
+    - 'occupation_status'
+    - 'profession'
+    - 'academic_pressure'
+    - 'work_pressure'
+    - 'cgpa'
+    - 'study_satisfaction'
+    - 'job_satisfaction'
+    - 'sleep_duration'
+    - 'dietary_habits'
+    - 'degree'
+    - 'suicidal_thoughts'
+    - 'work_study_hours'
+    - 'financial_stress'
+    - 'family_history_mental_illness'
+    - 'depression'
+  features:
+    cat_binary_features:
+      - "gender"
+      - "occupation_status"
+      - "suicidal_thoughts"
+      - "family_history_mental_illness"
+    cat_multiclass_features:
+      - "dietary_habits"
+      - "sleep_duration"
+      - "degree"
+    cat_highcard_features:
+      - "profession"
+      - "city"
+    num_standard_features:
+      - "age"
+      - "work_study_hours"
+      - "financial_stress"
+    num_custom_features:
+      - "academic_pressure"
+      - "work_pressure"
+      - "cgpa"
+      - "study_satisfaction"
+      - "job_satisfaction"
+
+preprocessing_custom:
+  relational_imputers:
+    - name: "cat_imputer_students_const"
+      enabled: true
+      params:
+        cols_to_impute: ["profession"]
+        condition_col: "occupation_status"
+        condition_value: "Student"
+        strategy: "constant"
+        fill_value: "Student"
+        flag_add: false
+    - name: "num_imputer_students_const"
+      enabled: true
+      params:
+        cols_to_impute: ["work_pressure", "job_satisfaction"]
+        condition_col: "occupation_status"
+        condition_value: "Student"
+        strategy: "constant"
+        fill_value: -1
+        flag_add: true
+        flag_suffix: "_not_applicable"
+    - name: "num_imputer_workers_const"
+      enabled: true
+      params:
+        cols_to_impute: ["academic_pressure", "study_satisfaction", "cgpa"]
+        condition_col: "occupation_status"
+        condition_value: "Working Professional"
+        strategy: "constant"
+        fill_value: -1
+        flag_add: true
+        flag_suffix: "_not_applicable"
+    - name: "num_imputer_students_median"
+      enabled: true
+      params:
+        cols_to_impute: ["academic_pressure", "study_satisfaction", "cgpa"]
+        condition_col: "occupation_status"
+        condition_value: "Student"
+        strategy: "median"
+        flag_add: false
+    - name: "num_imputer_workers_median"
+      enabled: true
+      params:
+        cols_to_impute: ["work_pressure", "job_satisfaction"]
+        condition_col: "occupation_status"
+        condition_value: "Working Professional"
+        strategy: "median"
+        flag_add: false
+    - name: "cat_imputer_students_freq"
+      enabled: true
+      params:
+        cols_to_impute: ["cgpa_cat"]
+        condition_col: "occupation_status"
+        condition_value: "Student"
+        strategy: "most_frequent"
+        flag_add: false
+
+  rare_category_combiner:
+    enabled: true
+    params:
+      columns: ["profession", "city"]
+      min_count: 10
+      other_label: "other"
+
+  feature_category_mapper:
+    enabled: true
+    params:
+      mappings:
+        dietary_habits: "dietary_mapping"
+        sleep_duration: "sleep_mapping"
+        degree: "degree_mapping"
+      other_value: "other"
+      normalize_func: "normalize_category"
+
+  uniform_categorizer:
+    enabled: true
+    params:
+      col: "cgpa"
+      n_bins: 3
+      not_applicable_value: -1
+      not_applicable_label: "not_applicable"
+      labels:
+        0: "low"
+        1: "medium"
+        2: "high"
+
+  feature_combiners:
+    - name: "num_feature_combiner_students"
+      enabled: true
+      params:
+        col1: "job_satisfaction"
+        col2: "study_satisfaction"
+        strategy: "max"
+        new_col_name: "job_study_satisfaction"
+    - name: "num_feature_combiner_workers"
+      enabled: true
+      params:
+        col1: "work_pressure"
+        col2: "academic_pressure"
+        strategy: "max"
+        new_col_name: "work_academic_stress"
+
+preprocessing_standard:
+  numerical:
+    imputer_strategy: "median"
+    scaler: "standard"
+  categorical:
+    multiclass:
+      imputer_strategy: "constant"
+      imputer_fill_value: "other"
+      encoder: "onehot"
+    high_cardinality:
+      imputer_strategy: "constant"
+      imputer_fill_value: "other"
+      encoder: "target"
+    binary:
+      imputer_strategy: "most_frequent"
+      encoder: "ordinal"
+    custom:
+      encoder: "onehot"
+
+model:
+  random_state: 42
+  name: "logistic_regression"
+  output_path: "models/depression_lr.pkl"
