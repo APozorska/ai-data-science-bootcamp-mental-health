@@ -19,7 +19,7 @@ def get_logger(
 
 if __name__ == '__main__':
     logger = get_logger(__name__, log_level="CRITICAL")
-    logger.info("Hello!")
-    logger.error("Wrong name!")
+    logger.info("Hello.")
+    logger.error("Wrong name.")
     logger.debug("Debugging the size...")
-    logger.critical("Critical! The program is not working as expected!")
+    logger.critical("Critical! The program is not working as expected.")
