@@ -40,6 +40,8 @@ data:
       - "age"
       - "work_study_hours"
       - "financial_stress"
+      - "work_academic_stress"
+      - "job_study_satisfaction"
     num_custom_features:
       - "academic_pressure"
       - "work_pressure"
@@ -47,127 +49,52 @@ data:
       - "study_satisfaction"
       - "job_satisfaction"
 
-preprocessing_custom:
-  relational_imputers:
-    - name: "cat_imputer_students_const"
-      enabled: true
-      params:
-        cols_to_impute: ["profession"]
-        condition_col: "occupation_status"
-        condition_value: "Student"
-        strategy: "constant"
-        fill_value: "Student"
-        flag_add: false
-    - name: "num_imputer_students_const"
-      enabled: true
-      params:
-        cols_to_impute: ["work_pressure", "job_satisfaction"]
-        condition_col: "occupation_status"
-        condition_value: "Student"
-        strategy: "constant"
-        fill_value: -1
-        flag_add: true
-        flag_suffix: "_not_applicable"
-    - name: "num_imputer_workers_const"
-      enabled: true
-      params:
-        cols_to_impute: ["academic_pressure", "study_satisfaction", "cgpa"]
-        condition_col: "occupation_status"
-        condition_value: "Working Professional"
-        strategy: "constant"
-        fill_value: -1
-        flag_add: true
-        flag_suffix: "_not_applicable"
-    - name: "num_imputer_students_median"
-      enabled: true
-      params:
-        cols_to_impute: ["academic_pressure", "study_satisfaction", "cgpa"]
-        condition_col: "occupation_status"
-        condition_value: "Student"
-        strategy: "median"
-        flag_add: false
-    - name: "num_imputer_workers_median"
-      enabled: true
-      params:
-        cols_to_impute: ["work_pressure", "job_satisfaction"]
-        condition_col: "occupation_status"
-        condition_value: "Working Professional"
-        strategy: "median"
-        flag_add: false
-    - name: "cat_imputer_students_freq"
-      enabled: true
-      params:
-        cols_to_impute: ["cgpa_cat"]
-        condition_col: "occupation_status"
-        condition_value: "Student"
-        strategy: "most_frequent"
-        flag_add: false
-
-  rare_category_combiner:
-    enabled: true
-    params:
-      columns: ["profession", "city"]
-      min_count: 10
-      other_label: "other"
-
-  feature_category_mapper:
-    enabled: true
-    params:
-      mappings:
-        dietary_habits: "dietary_mapping"
-        sleep_duration: "sleep_mapping"
-        degree: "degree_mapping"
-      other_value: "other"
-      normalize_func: "normalize_category"
-
-  uniform_categorizer:
-    enabled: true
-    params:
-      col: "cgpa"
-      n_bins: 3
-      not_applicable_value: -1
-      not_applicable_label: "not_applicable"
-      labels:
-        0: "low"
-        1: "medium"
-        2: "high"
-
-  feature_combiners:
-    - name: "num_feature_combiner_students"
-      enabled: true
-      params:
-        col1: "job_satisfaction"
-        col2: "study_satisfaction"
-        strategy: "max"
-        new_col_name: "job_study_satisfaction"
-    - name: "num_feature_combiner_workers"
-      enabled: true
-      params:
-        col1: "work_pressure"
-        col2: "academic_pressure"
-        strategy: "max"
-        new_col_name: "work_academic_stress"
-
-preprocessing_standard:
-  numerical:
-    imputer_strategy: "median"
-    scaler: "standard"
-  categorical:
-    multiclass:
-      imputer_strategy: "constant"
-      imputer_fill_value: "other"
-      encoder: "onehot"
-    high_cardinality:
-      imputer_strategy: "constant"
-      imputer_fill_value: "other"
-      encoder: "target"
-    binary:
-      imputer_strategy: "most_frequent"
-      encoder: "ordinal"
-    custom:
-      encoder: "onehot"
-
-model:
+data_split:
+  test_size: 0.1
   random_state: 42
-  name: "logistic_regression"
-  output_path: "models/depression_lr.pkl"
+
+preprocessing:
+  encoder_drop_lr: "first"
+  encoder_drop_rf: null
+
+feature_selection:
+  estimator: "random_forest"
+  estimator_params:
+      class_weight: 'balanced'
+      n_estimators: 100
+      random_state: 42
+  params:
+    threshold: 0.01
+  params_grid:
+    feature_selector__threshold: [0.001, 0.01, 0.1]
+
+models:
+  logistic_regression:
+    name: "logistic_regression"
+    params:
+      class_weight: "balanced"
+      random_state: 42
+      solver: "saga"
+      max_iter: 2000
+    params_grid:
+      standard_preprocessor__categorical__cat_multiclass__encoder__drop: ["first"]
+      model__C: [0.1, 1, 10]
+      model__penalty: ["l1", "l2"]
+    output_path: "models/model_lr.pkl"
+  random_forest:
+    name: "random_forest"
+    params:
+      class_weight: "balanced"
+      random_state: 42
+    params_grid:
+      standard_preprocessor__categorical__cat_multiclass__encoder__drop:  [null]
+      model__n_estimators: [50, 100, 150]
+      model__max_depth: [null, 10, 20]
+      model__min_samples_leaf: [4, 6]
+      bootstrap: [True, False]
+    output_path: "models/model_rf.pkl"
+
+cross_validation:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
