@@ -1,10 +1,10 @@
 from sklearn.pipeline import Pipeline
 
-from depression_classification.custom_transformers.imputation import RelationalImputer
-from depression_classification.custom_transformers.category_transformers import FeatureCategoryMapper, RareCategoryCombiner
-from depression_classification.custom_transformers.numerical_binning import UniformBinner
-from depression_classification.custom_transformers.numerical_combination import FeatureCombiner
-from depression_classification.custom_transformers.constants import mappings, normalize_category
+from depression_classification.preprocessing.custom_transformers.imputation import RelationalImputer
+from depression_classification.preprocessing.custom_transformers.category_transformers import FeatureCategoryMapper, RareCategoryCombiner
+from depression_classification.preprocessing.custom_transformers.numerical_binning import UniformBinner
+from depression_classification.preprocessing.custom_transformers.numerical_combination import FeatureCombiner
+from depression_classification.preprocessing.custom_transformers.constants import mappings, normalize_category
 
 
 def get_custom_cat_pipe():
@@ -36,8 +36,6 @@ def get_custom_num_pipe():
             condition_value='Student',
             strategy='constant',
             fill_value=-1,
-            flag_add=True,
-            flag_suffix='_not_applicable'
         )),
         ('num_imputer_workers_const', RelationalImputer(
             cols_to_impute=['academic_pressure', 'study_satisfaction', 'cgpa'],
@@ -45,8 +43,6 @@ def get_custom_num_pipe():
             condition_value='Working Professional',
             strategy='constant',
             fill_value=-1,
-            flag_add=True,
-            flag_suffix='_not_applicable'
         )),
         ('num_imputer_students_median', RelationalImputer(
             cols_to_impute=['academic_pressure', 'study_satisfaction', 'cgpa'],
@@ -85,4 +81,3 @@ def get_custom_preprocessor():
         ('feature_combiner', get_feature_combiner_pipe())
     ])
     return "custom_preprocessor", transformer
-

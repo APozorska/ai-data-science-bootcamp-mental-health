@@ -12,8 +12,6 @@ class RelationalImputer(BaseEstimator, TransformerMixin):
         condition_value (str): Value in `condition_col` that triggers imputation
         strategy (str, default='constant'): Imputation strategy ('constant', 'median', or 'most_frequent').
         fill_value (any, optional): Value to use for 'constant' strategy.
-        flag_add (bool, default=False): Whether to add binary flag columns indicating imputed values.
-        flag_suffix (str, default='_imputed'): Suffix for flag column names.
     Raises:
         ValueError: If strategy is invalid or required columns are missing.
     """
@@ -23,17 +21,13 @@ class RelationalImputer(BaseEstimator, TransformerMixin):
                  condition_col: str,
                  condition_value: str,
                  strategy: str = 'constant',
-                 fill_value: Any = None,
-                 flag_add: bool = False,
-                 flag_suffix: str = '_imputed'
+                 fill_value: Any = None
                  ):
         self.cols_to_impute = cols_to_impute
         self.condition_col = condition_col
         self.condition_value = condition_value
         self.strategy = strategy
         self.fill_value = fill_value
-        self.flag_add = flag_add
-        self.flag_suffix = flag_suffix
         self.medians_ = {}
         self.modes_ = {}
         if strategy not in ['constant', 'median', 'most_frequent']:
@@ -63,10 +57,6 @@ class RelationalImputer(BaseEstimator, TransformerMixin):
         X = X.copy()
         for col in self.cols_to_impute:
             mask = (X[self.condition_col] == self.condition_value) & (X[col].isna())
-            if self.flag_add:
-                flag_col = f"{col}{self.flag_suffix}"
-                X[flag_col] = 0
-                X.loc[mask, flag_col] = 1
             if self.strategy == 'median':
                 X.loc[mask, col] = self.medians_[col]
             elif self.strategy == 'constant':
