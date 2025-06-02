@@ -43,7 +43,7 @@ class ConditionalFlagger(BaseEstimator, TransformerMixin):
         for col, conditions in self.flagging_map.items():
             for flag_type, cond in conditions.items():
                 cond_col, cond_val = list(cond.items())[0]
-                mask = (X[cond_col.py] == cond_val) & (X[col].isna())
+                mask = (X[cond_col] == cond_val) & (X[col].isna())
                 flag_col = f"{col}{self.suffix_map[flag_type]}"
                 X[flag_col] = 0
                 X.loc[mask, flag_col] = 1
