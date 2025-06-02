@@ -36,3 +36,27 @@ mappings = {
     'sleep_duration': sleep_mapping,
     'degree': degree_mapping
 }
+
+
+flagging_map = {
+    'work_pressure': {
+        'not_applicable': {'occupation_status': 'Student'},
+        'imputed': {'occupation_status': 'Working Professional'}
+    },
+    'job_satisfaction': {
+        'not_applicable': {'occupation_status': 'Student'},
+        'imputed': {'occupation_status': 'Working Professional'}
+    },
+    'academic_pressure': {
+        'not_applicable': {'occupation_status': 'Working Professional'},
+        'imputed': {'occupation_status': 'Student'}
+    },
+    'study_satisfaction': {
+        'not_applicable': {'occupation_status': 'Working Professional'},
+        'imputed': {'occupation_status': 'Student'}
+    },
+    'cgpa': {
+        'not_applicable': {'occupation_status': 'Working Professional'},
+        'imputed': {'occupation_status': 'Student'}
+    }
+}
