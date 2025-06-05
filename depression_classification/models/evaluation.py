@@ -1,3 +1,5 @@
+import json
+
 from sklearn.metrics import (accuracy_score,
                              precision_score,
                              recall_score,
@@ -16,7 +18,9 @@ def evaluate_model(model, X_test, y_test, logger):
         y_proba = None
         roc_auc = None
 
-    report = classification_report(y_test, y_pred)
+    report_dict = classification_report(y_test, y_pred, output_dict=True)
+    report_str = classification_report(y_test, y_pred)
+
     accuracy = accuracy_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred, average="macro")
     precision = precision_score(y_test, y_pred, average="macro")
@@ -24,7 +28,7 @@ def evaluate_model(model, X_test, y_test, logger):
     f1_weighted = f1_score(y_test, y_pred, average="weighted")
     cm = confusion_matrix(y_test, y_pred)
 
-    logger.info(f"Classification report:\n{report}")
+    logger.info(f"Classification report:\n{report_str}")
     logger.info(f"F1-score (macro): {f1_macro:.4f}")
     logger.info(f"F1-score (weighted): {f1_weighted:.4f}")
     if roc_auc is not None:
@@ -32,13 +36,12 @@ def evaluate_model(model, X_test, y_test, logger):
     logger.info(f"Confusion matrix:\n{cm}")
 
     metrics = {
-        "classification_report": report,
         "accuracy": accuracy,
         "recall": recall,
         "precision": precision,
         "f1_macro": f1_macro,
         "f1_weighted": f1_weighted,
         "roc_auc": roc_auc,
-        "confusion_matrix": cm,
+        "confusion_matrix": cm.tolist(),
     }
     return metrics
