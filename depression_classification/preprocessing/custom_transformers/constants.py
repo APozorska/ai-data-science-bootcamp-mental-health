@@ -1,8 +1,8 @@
 import pandas as pd
 
 
-# Normalize function
-def normalize_category(value):
+# Cleaning strings
+def clean_category(value):
     if pd.isna(value):
         return value
     if isinstance(value, str):
@@ -35,28 +35,4 @@ mappings = {
     'dietary_habits': dietary_mapping,
     'sleep_duration': sleep_mapping,
     'degree': degree_mapping
-}
-
-
-flagging_map = {
-    'work_pressure': {
-        'not_applicable': {'occupation_status': 'Student'},
-        'imputed': {'occupation_status': 'Working Professional'}
-    },
-    'job_satisfaction': {
-        'not_applicable': {'occupation_status': 'Student'},
-        'imputed': {'occupation_status': 'Working Professional'}
-    },
-    'academic_pressure': {
-        'not_applicable': {'occupation_status': 'Working Professional'},
-        'imputed': {'occupation_status': 'Student'}
-    },
-    'study_satisfaction': {
-        'not_applicable': {'occupation_status': 'Working Professional'},
-        'imputed': {'occupation_status': 'Student'}
-    },
-    'cgpa': {
-        'not_applicable': {'occupation_status': 'Working Professional'},
-        'imputed': {'occupation_status': 'Student'}
-    }
 }
