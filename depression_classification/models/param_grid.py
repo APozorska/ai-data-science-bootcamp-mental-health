@@ -20,4 +20,3 @@ def build_param_grid(config, model_name):
     ]
     param_grid = [{**base_params, **selector} for selector in feature_selector_options]
     return param_grid
-
