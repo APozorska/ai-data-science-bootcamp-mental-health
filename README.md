@@ -5,12 +5,12 @@
 - [Project Description](#project-description)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [Usage](#usage)
   - [Running the Full Pipeline](#running-the-full-pipeline)
   - [Training and Tuning](#training-and-tuning)
   - [Evaluation](#evaluation)
   - [Prediction](#prediction)
-- [Configuration](#configuration)
 - [Examples](#examples)
 - [Contributing](#contributing)
 - [Contact](#contact)
@@ -73,6 +73,41 @@ ai-data-science-bootcamp-mental-health/
 git clone https://github.com/APozorska/ai-data-science-bootcamp-mental-health.git
 cd ai-data-science-bootcamp-mental-health
 ```
+---
+
+## Configuration
+
+All pipeline parameters are managed via `config.yaml`. This includes:
+- Data paths and columns
+- Feature engineering and selection settings
+- Model hyperparameters and search grids
+- Cross-validation setup
+- Output paths for models, metrics, and predictions
+
+**Example snippet:**  
+
+```yaml
+data:
+  raw_data_path: 'data/raw/full_data.csv'
+  data_splitted_train_path: 'data/train.csv'
+  data_splitted_test_path: 'data/test.csv'
+models:
+  to_test:
+    - 'logistic_regression'
+    - 'random_forest'
+...
+```
+
+
+> **Note:**  
+> The location of your config.yaml file is set using the `CFG_PATH` environment variable, which is loaded from a .env file in the project root.  
+>
+> If you want to run a new experiment or modify the pipeline settings, you **must update the `config.yaml` file** accordingly.  
+> Adjust data paths, feature engineering options, model parameters, or any other relevant settings in `config.yaml` before running the scripts.  
+
+---
+
+
 
 ---
 
@@ -109,35 +144,6 @@ python predict.py
 
 > **Note:** By default, scripts use the config path from `depression_classification/utils/settings.py` (`CFG_PATH`).  
 
----
-
-## Configuration
-
-All pipeline parameters are managed via `config.yaml`. This includes:
-- Data paths and columns
-- Feature engineering and selection settings
-- Model hyperparameters and search grids
-- Cross-validation setup
-- Output paths for models, metrics, and predictions
-
-**Example snippet:**  
-
-```yaml
-data:
-  raw_data_path: 'data/raw/full_data.csv'
-  data_splitted_train_path: 'data/train.csv'
-  data_splitted_test_path: 'data/test.csv'
-models:
-  to_test:
-    - 'logistic_regression'
-    - 'random_forest'
-...
-```
-
-
-> **Note:**  
-> If you want to run a new experiment or modify the pipeline settings, you **must update the `config.yaml` file** accordingly.  
-> Adjust data paths, feature engineering options, model parameters, or any other relevant settings in `config.yaml` before running the scripts.  
 
 ---
 
