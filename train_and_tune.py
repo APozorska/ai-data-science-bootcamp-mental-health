@@ -137,7 +137,7 @@ def main(config_path: str):
         shuffle=config["cross_validation"]["shuffle"],
         random_state=config["cross_validation"]["random_state"])
     primary_scoring = config["models"]["scoring"]["primary"]
-    cv_metrics = {}
+    models_selection_results = {}
 
     for model_name in models_to_test:
         logger.info(f"=== HYPERPARAMETER TUNING OF {model_name} ===")
@@ -235,7 +235,7 @@ def main(config_path: str):
             json.dump(metadata, f, indent=4)
         logger.info(f"Metadata {model_name} saved to: {metadata_path}")
 
-        cv_metrics[model_name] = {
+        models_selection_results[model_name] = {
             # GridSearchCV results
             "best_score": best_score,
             "best_params": best_params,
@@ -254,16 +254,16 @@ def main(config_path: str):
         }
 
     # Save evaluation metrics
-    cv_metrics_df = pd.DataFrame(cv_metrics).T
-    cv_metrics_path = config["outputs"]["cv_metrics_output_path"]
-    cv_metrics_df.to_csv(cv_metrics_path)
-    logger.info(f"Metrics for all models saved to: {cv_metrics_path}")
+    models_selection_df = pd.DataFrame(models_selection_results).T
+    models_selection_path = config["outputs"]["models_selection_output_path"]
+    models_selection_df.to_csv(models_selection_path)
+    logger.info(f"Model selection metrics for all models saved to: {models_selection_path}")
 
     # Select best model
     logger.info("=== FINAL MODEL SELECTION ===")
     final_selection_metric = "val_f1_weighted_tuned"
-    best_model_name = cv_metrics_df[final_selection_metric].idxmax()
-    best_row = cv_metrics_df.loc[best_model_name]
+    best_model_name = models_selection_df[final_selection_metric].idxmax()
+    best_row = models_selection_df.loc[best_model_name]
     logger.info(f"Selected best model: {best_model_name}\n Summary: \n{best_row}")
 
     # Retrain on full train+val data
@@ -286,7 +286,8 @@ def main(config_path: str):
         "model_path": final_model_path,
         "score": best_row["best_score"],
         "selection_metric": primary_scoring,
-        "params": final_params_serializable
+        "params": final_params_serializable,
+        "best_threshold": best_row["best_threshold"]
     }
     with open(final_metadata_output_path, "w") as f:
         json.dump(final_metadata, f, indent=4)
