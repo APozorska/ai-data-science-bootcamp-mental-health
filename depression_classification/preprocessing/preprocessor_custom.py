@@ -2,9 +2,8 @@ from sklearn.pipeline import Pipeline
 
 from depression_classification.preprocessing.custom_transformers.imputation import RelationalImputer
 from depression_classification.preprocessing.custom_transformers.category_transformers import FeatureCategoryMapper, RareCategoryCombiner
-from depression_classification.preprocessing.custom_transformers.numerical_binning import UniformBinner
 from depression_classification.preprocessing.custom_transformers.numerical_combination import FeatureCombiner
-from depression_classification.preprocessing.custom_transformers.constants import mappings, normalize_category
+from depression_classification.preprocessing.custom_transformers.constants import mappings, clean_category
 
 
 def get_custom_cat_pipe():
@@ -23,7 +22,7 @@ def get_custom_cat_pipe():
         ('cat_mapper', FeatureCategoryMapper(
             mappings=mappings,
             other_value='other',
-            normalize_func=normalize_category
+            clean_func=clean_category
         )),
     ])
 
