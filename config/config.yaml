@@ -117,7 +117,7 @@ cross_validation:
 
 outputs:
   # from train_and_tune file
-  cv_metrics_output_path: "models/cv_metrics.csv"
+  models_selection_output_path: "models/models_selection_metrics.csv"
   final_metadata_output_path: "models/final_model_metadata.json"
   final_model_output_path: "models/final_model.pkl"
   # from evaluate file
