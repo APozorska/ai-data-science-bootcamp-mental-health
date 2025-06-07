@@ -4,8 +4,15 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class FeatureCombiner(BaseEstimator, TransformerMixin):
-
-    def __init__(self, col1, col2, strategy='max', new_col_name=None):
+    """
+    Combines two numerical columns using a specified aggregation strategy.
+    Args
+    col1: First column name.
+    col2: Second column name.
+    strategy: Aggregation method, {'max', 'min', 'sum', 'mean'}, default='max'
+    new_col_name: Name of the new combined column.
+    """
+    def __init__(self, col1: str, col2: str, strategy='max', new_col_name=None):
         self.col1 = col1
         self.col2 = col2
         self.strategy = strategy
