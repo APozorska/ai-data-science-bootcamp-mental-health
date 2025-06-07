@@ -56,6 +56,7 @@ ai-data-science-bootcamp-mental-health/
 │   │   └── custom_transformers/    # Custom feature engineering components
 │   ├── utils/                      # Config, logging, and helper functions
 ├── models/                         # Saved models and metadata
+├── notebooks/                      # Notebook
 ├── results/                        # Evaluation metrics and predictions
 ├── main.py                         # Run the full pipeline (train, evaluate, predict)
 ├── train_and_tune.py               # Train models and tune hyperparameters
