@@ -65,9 +65,9 @@ feature_selection:
   params:
     threshold: 0.01
   params_grid:
-#    feature_selector__threshold: [0.001]
-    feature_selector__threshold: [ 0.001, 0.01 ]
-#    feature_selector__estimator__max_depth: [10]
+    feature_selector__threshold: [0.001]
+#    feature_selector__threshold: [ 0.001, 0.01 ]
+#    feature_selector__estimator__max_depth: [10, 20]
     feature_selector__estimator__max_depth: [10]
 
 models:
