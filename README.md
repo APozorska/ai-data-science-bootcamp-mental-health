@@ -50,7 +50,6 @@ ai-data-science-bootcamp-mental-health/
 │   └── raw/                        # Raw data file
 ├── depression_classification/
 │   ├── data/                       # Data loading utilities
-│   ├── features/                   # Feature selection scripts
 │   ├── models/                     # Model definitions, evaluation, and parameter grids
 │   ├── pipeline/                   # Pipeline assembly
 │   ├── preprocessing/              # Custom transformers and preprocessing scripts
@@ -107,14 +106,14 @@ Predict on external data:
 python predict.py
 ```
 
-> **Tip:** By default, scripts use the config path from `depression_classification/utils/settings.py` (`CFG_PATH`).  
+
+> **Note:** By default, scripts use the config path from `depression_classification/utils/settings.py` (`CFG_PATH`).  
 
 ---
 
 ## Configuration
 
-All pipeline parameters are managed via `config.yaml`.  
-This includes:
+All pipeline parameters are managed via `config.yaml`. This includes:
 - Data paths and columns
 - Feature engineering and selection settings
 - Model hyperparameters and search grids
@@ -134,6 +133,12 @@ models:
     - 'random_forest'
 ...
 ```
+
+
+> **Note:**  
+> If you want to run a new experiment or modify the pipeline settings, you **must update the `config.yaml` file** accordingly.  
+> Adjust data paths, feature engineering options, model parameters, or any other relevant settings in `config.yaml` before running the scripts.  
+
 ---
 
 ## Examples
@@ -148,7 +153,7 @@ print(metrics)
 **Loading predictions:**
 
 ```python
-preds = pd.read_csv('results/test_predictions.csv')
+preds = pd.read_csv('results/external_data_predictions.csv')
 print(preds.head())
 ```
 
