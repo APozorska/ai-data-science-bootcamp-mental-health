@@ -44,7 +44,7 @@ The workflow covers data preprocessing, feature engineering, model training, hyp
 
 ## Pipeline Overview
 
-![Pipeline Overview](docs/pipeline.png)
+![Pipeline Overview](docs/pipeline.PNG)
 
 ---
 
