@@ -173,3 +173,9 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+*.pkl
+*.json
+*.csv
+.virtual_documents/
+_my_wip
+.idea
