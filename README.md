@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Project Description](#project-description)
+- [Pipeline Overview](#pipeline-overview)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -38,6 +39,12 @@ The workflow covers data preprocessing, feature engineering, model training, hyp
 - Random Forest
 
 *Future work may include: Multi-Layer Perceptron (MLP), XGBoost*
+
+---
+
+## Pipeline Overview
+
+![Pipeline Overview](docs/pipeline.png)
 
 ---
 
