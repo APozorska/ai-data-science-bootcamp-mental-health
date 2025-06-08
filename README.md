@@ -1,4 +1,4 @@
-# Beyond the Symptoms: AI Models for Depression Classification in Mental Health Data
+# Beyond the Symptoms: AI Models for Depression Classification Based on Mental Health Data
 
 ## Table of Contents
 
@@ -194,6 +194,7 @@ For questions or collaboration, contact:
 - [Email](a.pozorska9@gmail.com)  
 - [LinkedIn profile](https://www.linkedin.com/in/aleksandra-pozorska/)  
 - [Kaggle profile](https://www.kaggle.com/aleksandrapozorska)
+- [SPOJ profile](https://pl.spoj.com/users/a_pozorska94/)
 
 
 ---
