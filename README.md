@@ -1,4 +1,4 @@
-# Beyond the Symptoms: AI Models for Depression Classification Based on Mental Health Data
+# Machine Learning Models for Depression Risk Classification
 
 ## Table of Contents
 
