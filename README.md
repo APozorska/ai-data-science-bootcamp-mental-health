@@ -34,6 +34,43 @@ The workflow covers data preprocessing, feature engineering, model training, hyp
 - Python (`pandas`, `numpy`, `matplotlib`, `scikit-learn`)
 - Jupyter Notebook
 
+
+**Dataset**
+
+Source: Kaggle Competition - Exploring Mental Health Data (link: https://www.kaggle.com/competitions/playground-series-s4e11)
+
+**Features**
+- Name (`name`) : Identifier for participants (anonymized)
+- Gender (`gender`): Participant's gender identity
+- Age (`age`): Participant's age
+- City (`city`): Location of residence
+- Working Professional or Student (`occupation_status`): Current occupation category
+- Profession (`profession`): Specific profession/field of work
+- Degree (`degree`): Educational qualification
+- CGPA (`cgpa`): Academic performance measure
+- Academic Pressure (`academic_pressure`): Level of pressure from academic responsibilities
+- Work Pressure (`work_pressure`): Level of pressure from work responsibilities
+- Study Satisfaction (`study_satisfaction`): Level of satisfaction with studies
+- Job Satisfaction (`job_satisfaction`): Level of satisfaction with current job
+- Work/Study Hours (`work_study_hours`): Daily hours spent on work/study
+- Sleep Duration (`sleep_duration`): Average daily sleep hours
+- Dietary Habits (`dietary_habits`): Eating patterns and food preferences
+- Have you ever had suicidal thoughts? (`suicidal_thoughts`): History of suicidal ideation (Yes/No)
+- Financial Stress (`financial_stress`): Level of stress related to financial situation
+- Family History of Mental Illness (`family_history_mental_illness`): Presence of mental illness in family (Yes/No)
+  
+**Target Variable** 
+- Depression (`depression`): Binary indicator (1 = Yes, 0 = No) of depression risk
+
+**Methodology**
+- Load data
+- Data preparation & exploration
+- Preprocessing
+- Feature selection
+- Training and hyperparameter tuning
+- Evaluation
+- Model selection & prediction
+
 **Trained Models:**
 - Logistic Regression
 - Random Forest
@@ -41,6 +78,8 @@ The workflow covers data preprocessing, feature engineering, model training, hyp
 *Future work may include: Multi-Layer Perceptron (MLP), XGBoost*
 
 ---
+
+
 
 ## Pipeline Overview
 
@@ -112,10 +151,6 @@ models:
 >
 > If you want to run a new experiment or modify the pipeline settings, you **must update the `config.yaml` file** accordingly.  
 > Adjust data paths, feature engineering options, model parameters, or any other relevant settings in `config.yaml` before running the scripts.  
-
----
-
-
 
 ---
 
