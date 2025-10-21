@@ -62,8 +62,11 @@ def main(config_path):
     # FINAL evaluation on test set
     logger.info("=== EVALUATE PREDICTIONS ===")
     y_pred = final_model.predict(X_test)
-    y_proba = final_model.predict_proba(X_test)[:, 1] if hasattr(final_model, "predict_proba") else None
-    y_pred_threshold = (y_proba >= best_threshold).astype(int)
+    if hasattr(final_model, "predict_proba"):
+        y_proba = final_model.predict_proba(X_test)[:, 1]
+        y_pred_threshold = (y_proba >= best_threshold).astype(int)
+    else:
+        y_pred_threshold = None
 
     report_default = classification_report(y_test, y_pred)
     logger.debug(f"Classification report with default threshold:\n{report_default}")
