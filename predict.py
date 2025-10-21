@@ -13,8 +13,6 @@ logger = get_logger("PREDICT EXTERNAL DATA", log_level="DEBUG")
 
 def main(config_path):
 
-    logger.info("*" * 80)
-
     # Load configuration
     logger.info("=== LOAD CONFIGURATION ===")
     try:
@@ -77,8 +75,6 @@ def main(config_path):
     except Exception as e:
         logger.error(f"Failed to save predictions: {str(e)}")
         raise
-
-    logger.info("*" * 80)
 
 
 if __name__ == '__main__':

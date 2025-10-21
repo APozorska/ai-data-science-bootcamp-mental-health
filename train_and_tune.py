@@ -28,7 +28,6 @@ logger = get_logger("TRAIN AND TUNE", log_level="DEBUG")
 
 
 def main(config_path: str):
-    logger.info("*" * 80)
     # Load configuration
     logger.info("=== LOAD CONFIGURATION ===")
     try:
@@ -56,13 +55,13 @@ def main(config_path: str):
         logger.error(f"Error loading data: {str(e)}")
         raise
 
-    logger.info(f"Columns: {df.columns.tolist()}")
-    logger.info(f"Shape: {df.shape}")
+    logger.info(f"Columns: {df.columns.tolist()}\n"
+                f"Shape: {df.shape}")
 
-    logger.debug(f"First rows of the data:\n{df.head(3).to_string()}")
-    logger.debug(f"Missing values:\n{df.isnull().sum()}")
-    logger.debug(f"Dtypes: \n{df.dtypes}")
-    logger.debug(f"Describe:\n{df.describe().to_string()}")
+    logger.debug(f"First rows of the data:\n{df.head(3).to_string()} \n"
+                 f"Missing values:\n{df.isnull().sum()} \n"
+                 f"Dtypes: \n{df.dtypes} \n"
+                 f"Describe:\n{df.describe().to_string()}")
 
     logger.info("=== LOAD FEATURE GROUPS AND TARGET FROM CONFIGURATION ===")
     feature_groups = get_feature_groups(config, logger)
@@ -173,10 +172,13 @@ def main(config_path: str):
             best_estimator = optimizer.best_estimator_
             best_params = optimizer.best_params_
             best_score = optimizer.best_score_
-            logger.info(f"GridSearchCV for {model_name} completed in {time.time() - start:.2f} seconds.")
-            logger.info(f"Best model includes feature selection: {isinstance(best_estimator.named_steps['feature_selector'], SelectFromModel)}")
-            logger.info(f"Best params: {best_params}\n"
-                        f"Best score: {best_score}")
+            logger.info(
+                f"GridSearchCV for {model_name} completed in {time.time() - start:.2f} seconds.\n"
+                f"Best model includes feature selection: {isinstance(best_estimator.named_steps['feature_selector'], SelectFromModel)}\n"
+                f"Best model includes feature selection: {isinstance(best_estimator.named_steps['feature_selector'], SelectFromModel)}\n"
+                f"Best params: {best_params}\n"
+                f"Best score: {best_score}")
+
         except Exception as e:
             logger.error(f"Error during model training/optimization: {str(e)}")
             raise
@@ -195,9 +197,9 @@ def main(config_path: str):
         logger.debug(f"Classification report with default threshold: \n{default_report}")
 
         metrics_default = evaluate_model(y_val, y_val_pred_default, y_proba=y_val_proba)
-        logger.info(f"Evaluation metrics for {model_name} with default threshold:")
-        logger.info(f"F1-score (weighted): {metrics_default['f1_weighted']:.4f}")
-        logger.info(f"Recall: {metrics_default['recall']:.4f}")
+        logger.info(f"Evaluation metrics for {model_name} with default threshold: \n"
+                    f"F1-score (weighted): {metrics_default['f1_weighted']:.4f}\n"
+                    f"Recall: {metrics_default['recall']:.4f}")
         if metrics_default['roc_auc'] is not None:
             logger.info(f"ROC-AUC score: {metrics_default['roc_auc']:.4f}")
         logger.info(f"Confusion matrix: {metrics_default['confusion_matrix']}")
@@ -212,9 +214,9 @@ def main(config_path: str):
         logger.debug(f"Classification report after threshold tuning:\n{tuned_report}")
 
         metrics_tuned = evaluate_model(y_val, y_val_pred_tuned, y_proba=y_val_proba)
-        logger.info(f"Evaluation metrics for {model_name} with tuned threshold (={best_threshold:.2f}):")
-        logger.info(f"F1-score (weighted): {metrics_tuned['f1_weighted']:.4f}")
-        logger.info(f"Recall: {metrics_tuned['recall']:.4f}")
+        logger.info(f"Evaluation metrics for {model_name} with tuned threshold (={best_threshold:.2f}): \n"
+                    f"F1-score (weighted): {metrics_tuned['f1_weighted']:.4f} \n"
+                    f"Recall: {metrics_tuned['recall']:.4f}")
         if metrics_tuned['roc_auc'] is not None:
             logger.info(f"ROC-AUC score: {metrics_tuned['roc_auc']:.4f}")
         logger.info(f"Confusion matrix: {metrics_tuned['confusion_matrix']}")
@@ -292,8 +294,6 @@ def main(config_path: str):
     with open(final_metadata_output_path, "w") as f:
         json.dump(final_metadata, f, indent=4)
     logger.info(f"Metrics saved to: {final_metadata_output_path}")
-
-    logger.info("*" * 80)
 
 
 if __name__ == '__main__':

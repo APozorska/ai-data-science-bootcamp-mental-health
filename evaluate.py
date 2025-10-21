@@ -14,8 +14,6 @@ logger = get_logger("EVALUATE ON TEST SET", log_level="INFO")
 
 def main(config_path):
 
-    logger.info("*" * 80)
-
     # Load configuration
     logger.info("=== LOAD CONFIGURATION ===")
     try:
@@ -76,8 +74,8 @@ def main(config_path):
     metrics_default = evaluate_model(y_test, y_pred, y_proba)
     metrics_tuned = evaluate_model(y_test, y_pred_threshold, y_proba)
 
-    logger.info(f"Default threshold metrics (0.5): {metrics_default}")
-    logger.info(f"Tuned threshold metrics ({best_threshold:.3f}): {metrics_tuned}")
+    logger.info(f"Default threshold metrics (0.5): {metrics_default}\n"
+                f"Tuned threshold metrics ({best_threshold:.3f}): {metrics_tuned}")
 
     # Save metrics
     final_metadata = {
@@ -93,8 +91,6 @@ def main(config_path):
     with open(final_evaluation_output_path, "w") as f:
         json.dump(final_metadata, f, indent=4)
     logger.info(f"Metrics saved to: {final_evaluation_output_path}")
-
-    logger.info("*" * 80)
 
 
 if __name__ == '__main__':
