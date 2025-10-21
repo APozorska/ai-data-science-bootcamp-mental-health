@@ -1,9 +1,11 @@
 import yaml
 from pathlib import Path
 
+from depression_classification.utils.settings import CFG_PATH
 
-def load_task_config(config_path: str | Path) -> dict:
-    config_path = Path(config_path)
+
+def load_config() -> dict:
+    config_path = Path(CFG_PATH)
     with config_path.open() as f:
         config = yaml.safe_load(f)
     return config

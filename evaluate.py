@@ -3,7 +3,7 @@ import joblib
 
 from sklearn.metrics import classification_report
 
-from depression_classification.utils.config import load_task_config, get_target_col
+from depression_classification.utils.config import load_config, get_target_col
 from depression_classification.utils.logger import get_logger
 from depression_classification.data.loader import load_csv
 from depression_classification.models.evaluation import evaluate_model
@@ -12,16 +12,16 @@ from depression_classification.models.evaluation import evaluate_model
 logger = get_logger("EVALUATE ON TEST SET", log_level="INFO")
 
 
-def main(config_path):
+def main():
 
     # Load configuration
     logger.info("=== LOAD CONFIGURATION ===")
     try:
-        config = load_task_config(config_path)
+        config = load_config()
         logger.info("Configuration loaded.")
         logger.debug(f"Config: {config}")
     except FileNotFoundError:
-        logger.error(f"Config file not found: {config_path}")
+        logger.error(f"Config file not found.")
         raise
     except Exception as e:
         logger.error(f"Error loading config: {str(e)}")
@@ -97,6 +97,4 @@ def main(config_path):
 
 
 if __name__ == '__main__':
-    from depression_classification.utils.settings import CFG_PATH
-
-    main(CFG_PATH)
+    main()

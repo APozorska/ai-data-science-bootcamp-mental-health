@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, roc_curve
 from sklearn.base import clone
 
 from depression_classification.data.loader import load_csv
-from depression_classification.utils.config import load_task_config, get_feature_groups, get_target_col
+from depression_classification.utils.config import load_config, get_feature_groups, get_target_col
 from depression_classification.utils.logger import get_logger
 from depression_classification.utils.json_utils import make_json_serializable
 
@@ -27,15 +27,16 @@ from depression_classification.models.evaluation import evaluate_model
 logger = get_logger("TRAIN AND TUNE", log_level="DEBUG")
 
 
-def main(config_path: str):
+def main():
+
     # Load configuration
     logger.info("=== LOAD CONFIGURATION ===")
     try:
-        config = load_task_config(config_path)
+        config = load_config()
         logger.info("Configuration loaded.")
         logger.debug(f"Config: {config}")
     except FileNotFoundError:
-        logger.error(f"Config file not found: {config_path}")
+        logger.error(f"Config file not found.")
         raise
     except Exception as e:
         logger.error(f"Error loading config: {str(e)}")
@@ -297,6 +298,4 @@ def main(config_path: str):
 
 
 if __name__ == '__main__':
-    from depression_classification.utils.settings import CFG_PATH
-
-    main(CFG_PATH)
+    main()
