@@ -1,7 +1,10 @@
 from sklearn.pipeline import Pipeline
 
 from depression_classification.preprocessing.custom_transformers.imputation import RelationalImputer
-from depression_classification.preprocessing.custom_transformers.category_transformers import FeatureCategoryMapper, RareCategoryCombiner
+from depression_classification.preprocessing.custom_transformers.category_transformers import (
+    FeatureCategoryMapper,
+    RareCategoryCombiner
+)
 from depression_classification.preprocessing.custom_transformers.numerical_combination import FeatureCombiner
 from depression_classification.preprocessing.custom_transformers.constants import mappings, clean_category
 
