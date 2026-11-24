@@ -1,0 +1,8 @@
+# Extra dependencies for the notebooks in notebooks/
+-r requirements.txt
+jupyterlab>=4.0
+matplotlib>=3.7
+scikeras>=0.13
+seaborn>=0.13
+tensorflow>=2.16
+xgboost>=2.0
