@@ -173,9 +173,15 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-*.pkl
-*.json
-*.csv
+# Generated pipeline outputs
+data/*.csv
+models/*
+!models/.gitkeep
+results/*
+!results/.gitkeep
+
+# Jupyter
 .virtual_documents/
-_my_wip
-.idea
+
+# PyCharm
+.idea/
