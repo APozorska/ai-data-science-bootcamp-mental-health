@@ -6,6 +6,11 @@ from depression_classification.utils.settings import CFG_PATH
 
 def load_config() -> dict:
     config_path = Path(CFG_PATH)
+    if not config_path.is_file():
+        raise FileNotFoundError(
+            f"Config file not found: {config_path}. "
+            "Set CFG_PATH in .env (see .env.example) or add config/config.yaml."
+        )
     with config_path.open() as f:
         config = yaml.safe_load(f)
     return config
